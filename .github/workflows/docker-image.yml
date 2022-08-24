@@ -1,6 +1,9 @@
-name: 构建transmission镜像
+name: Build Transmission Image
+
 on:
-  workflow_dispatch:
+    release:
+        types: [published]
+
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -8,30 +11,38 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@master
-      
-      - 
-        name: Set Up QEMU
+
+      - name: Set Version
+        id: set-version
+        run: |
+          echo "::set-output name=version::${GITHUB_REF:10}"
+          echo "ReleaseTag=${GITHUB_REF:10}"
+
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
-      - 
-        name: Set Up Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        
-      - 
-        name: Login DockerHub
+
+      - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - 
-        name: Buildx-latest
+        name: Build Transmission Image
         uses: docker/build-push-action@v3
         with:
           context: .
           file: Dockerfile
           platforms: |
             linux/amd64
+            linux/arm/v7
+            linux/arm64/v8
           push: true
+          build-args: |
+            VERSION=${{ steps.set-version.outputs.version }}
           tags: |
-            ddsderek/transmission:latest
+             ${{ secrets.DOCKER_USERNAME }}/transmission:${{ steps.set-version.outputs.version }}
+             ${{ secrets.DOCKER_USERNAME }}/transmission:latest
