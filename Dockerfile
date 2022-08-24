@@ -5,6 +5,8 @@ ARG BUILD_DATE
 ARG VERSION
 ARG TRANSMISSION_VERSION
 
+ENV DOWNLOAD_DIR=/downloads
+
 RUN \
   echo "**** install build packages ****" && \
   apk add --no-cache --upgrade --virtual=build-dependencies \

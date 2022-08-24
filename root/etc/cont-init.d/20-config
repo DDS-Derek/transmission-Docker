@@ -2,7 +2,7 @@
 
 # make folders
 mkdir -p \
-	/media/incomplete /watch
+	${DOWNLOAD_DIR}/incomplete /watch
 
 # copy config
 [[ ! -f /config/settings.json ]] && cp \
@@ -39,10 +39,14 @@ if [ ! -z "${PEERPORT}" ]; then
     sed -i '/peer-port-random-on-start/c\     "peer-port-random-on-start": false,' /config/settings.json
 fi
 
+if [ ! -z "${DOWNLOAD_DIR}" ]; then
+    sed -i "/\"download-dir\"/c\    \"download-dir\": ${DOWNLOAD_DIR}," /config/settings.json
+    sed -i "/\"incomplete-dir\"/c\    \"incomplete-dir\": ${DOWNLOAD_DIR}/incomplete," /config/settings.json
+fi
 
 # permissions
 chown abc:abc \
 	/config/settings.json \
-	/media \
-	/media/incomplete \
+	${DOWNLOAD_DIR} \
+	${DOWNLOAD_DIR}/incomplete \
 	/watch
