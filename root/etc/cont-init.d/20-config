@@ -40,8 +40,8 @@ if [ ! -z "${PEERPORT}" ]; then
 fi
 
 if [ ! -z "${DOWNLOAD_DIR}" ]; then
-    sed -i "/\"download-dir\"/c\    \"download-dir\": "$DOWNLOAD_DIR"," /config/settings.json
-    sed -i "/\"incomplete-dir\"/c\    \"incomplete-dir\": "$DOWNLOAD_DIR"/incomplete," /config/settings.json
+    sed -i "/\"download-dir\"/c\    \"download-dir\": \"$DOWNLOAD_DIR\"," /config/settings.json
+    sed -i "/\"incomplete-dir\"/c\    \"incomplete-dir\": \"$DOWNLOAD_DIR/incomplete\"," /config/settings.json
 fi
 
 # permissions
