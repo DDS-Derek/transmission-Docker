@@ -90,7 +90,7 @@ RUN \
     /tmp/*
 
 # copy local files
-COPY root/ /
+COPY --chmod=755 root/ /
 
 # ports and volumes
 EXPOSE 9091 51413/tcp 51413/udp
