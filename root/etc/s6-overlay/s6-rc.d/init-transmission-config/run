@@ -46,16 +46,16 @@ if [ ! -z "${DOWNLOAD_DIR}" ]; then
 fi
 
 # permissions
-chown abc:abc \
+lsiown abc:abc \
     /config/settings.json \
 
 if [[ "$(stat -c '%U' ${DOWNLOAD_DIR})" != "abc" ]]; then
-    chown abc:abc \
+    lsiown abc:abc \
         ${DOWNLOAD_DIR} \
         ${DOWNLOAD_DIR}/complete \
         ${DOWNLOAD_DIR}/incomplete
 fi
 
 if [[ "$(stat -c '%U' /watch)" != "abc" ]]; then
-    chown abc:abc /watch
+    lsiown abc:abc /watch
 fi
