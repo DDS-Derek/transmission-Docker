@@ -1,0 +1,54 @@
+name: Build transmission image
+
+on:
+    release:
+        types: [published]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@master
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/transmission
+
+      - name: Rename version
+        run: |
+          META_VERSION=${{ steps.meta.outputs.version }}
+          TR_VERSION=$(echo "${META_VERSION}" | cut -d'-' -f1 | sed 's/^v//')
+          echo "tr_version=${TR_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - 
+        name: Build transmission image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile
+          platforms: |
+            linux/amd64
+            linux/arm/v7
+            linux/arm64/v8
+          push: true
+          build-args: |
+            TRANSMISSION_VERSION=${{ env.tr_version }}
+          tags: |
+             ${{ secrets.DOCKER_USERNAME }}/transmission:${{ steps.meta.outputs.version }}
+             ${{ secrets.DOCKER_USERNAME }}/transmission:latest

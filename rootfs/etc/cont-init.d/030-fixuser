@@ -1,0 +1,39 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+function __fixuser {
+
+    DOWNLOAD_DIR=${DOWNLOAD_DIR:-/download}
+    PUID=${PUID:-1000}
+    PGID=${PGID:-1000}
+
+    echo "Change owner to user qbittorrent..."
+    echo "PUID=${PUID}"
+    echo "PGID=${PGID}"
+
+    groupmod -o -g "${PGID}" tr
+    usermod -o -u "${PUID}" tr
+
+    chown tr:tr \
+        /config \
+        /config/settings.json
+
+    if [[ "$(stat -c '%U' ${DOWNLOAD_DIR})" != "tr" ]]; then
+        chown tr:tr ${DOWNLOAD_DIR}
+    fi
+
+    if [[ "$(stat -c '%U' ${DOWNLOAD_DIR}/complete)" != "tr" ]]; then
+        chown tr:tr ${DOWNLOAD_DIR}/complete
+    fi
+
+    if [[ "$(stat -c '%U' ${DOWNLOAD_DIR}/incomplete)" != "tr" ]]; then
+        chown tr:tr ${DOWNLOAD_DIR}/incomplete
+    fi
+
+    if [[ "$(stat -c '%U' /watch)" != "tr" ]]; then
+        chown tr:tr /watch
+    fi
+
+}
+
+__fixuser 2>&1 | sed "s#^#cont-init: info: $(realpath $0): \1#g"
