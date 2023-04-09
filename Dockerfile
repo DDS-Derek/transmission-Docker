@@ -15,14 +15,27 @@ RUN apk add --no-cache --upgrade \
         curl-dev \
         cmake \
         python3 \
-        openssl-dev
+        openssl-dev \
+        automake \
+        autoconf \
+        bsd-compat-headers \
+        curl-static \
+        nghttp2-dev \
+        nghttp2-static \
+        openssl-dev \
+        intltool \
+        libevent-dev \
+        libevent-static \
+        libssh2-dev \
+        tar \
+        xz
 RUN mkdir -p /rootfs/usr
 RUN git clone -b ${TRANSMISSION_VERSION} https://github.com/transmission/transmission /build
 WORKDIR /build
 RUN git submodule update --init --recursive
 WORKDIR /build/build
 RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX="/rootfs/usr" ..
-RUN make
+RUN make -j $(nproc)
 RUN make install
 RUN rm -rf \
         /rootfs/usr/bin/transmission-create \
