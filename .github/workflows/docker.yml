@@ -1,11 +1,11 @@
 name: Build transmission image
 
 on:
-    release:
-        types: [published]
+  release:
+    types: [published]
 
 jobs:
-  push:
+  build:
     runs-on: ubuntu-latest
     steps:
       - 
