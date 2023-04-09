@@ -5,6 +5,9 @@ function __mkdir {
 
     DOWNLOAD_DIR=${DOWNLOAD_DIR:-/download}
 
+    UMASK=${UMASK:-022}
+    umask ${UMASK}
+
     echo "Make some folders..."
 
     if [ ! -d ${DOWNLOAD_DIR} ]; then

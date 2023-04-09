@@ -12,6 +12,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - UMASK=022
       - TZ=Asia/Shanghai
       - USER=username #optional
       - PASS=password #optional
@@ -35,6 +36,7 @@ docker run -d \
   --name=transmission \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e UMASK=022 \
   -e TZ=Asia/Shanghai \
   -e USER=username `#optional` \
   -e PASS=password `#optional` \
@@ -61,6 +63,7 @@ docker run -d \
 |                 `-p 51413/udp`                  |                       Torrent 端口 UDP                       |
 |                 `-e PUID=1000`                  |               对于 User ID - 请参阅上面的说明                |
 |                 `-e PGID=1000`                  |               对于 GroupID - 请参阅上面的说明                |
+|                 `-e UMASK=022`                  |               对于 UMASK - 请参阅上面的说明                |
 |              `-e TZ=Asia/Shanghai`              |                        指定时区以使用                        |
 |               `-e USER=username`                |                     指定接口的可选用户名                     |
 |               `-e PASS=password`                |                      指定接口的可选密码                      |

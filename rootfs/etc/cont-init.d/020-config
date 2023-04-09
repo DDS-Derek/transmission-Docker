@@ -5,6 +5,9 @@ function __config {
 
     DOWNLOAD_DIR=${DOWNLOAD_DIR:-/download}
 
+    UMASK=${UMASK:-022}
+    umask ${UMASK}
+
     if [[ ! -f /config/settings.json ]]; then
         cp /defaults/settings.json /config/settings.json
     fi
