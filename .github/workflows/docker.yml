@@ -22,7 +22,8 @@ jobs:
         run: |
           META_VERSION=${{ steps.meta.outputs.version }}
           TR_VERSION=$(echo "${META_VERSION}" | cut -d'-' -f1 | sed 's/^v//')
-          echo "tr_version=${TR_VERSION}" >> $GITHUB_OUTPUT
+          echo "${TR_VERSION}"
+          echo "tr_version=${TR_VERSION}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
