@@ -1,4 +1,4 @@
-FROM alpine:3.17 AS build
+FROM alpine:3.17 AS Build
 
 ARG TRANSMISSION_VERSION
 
