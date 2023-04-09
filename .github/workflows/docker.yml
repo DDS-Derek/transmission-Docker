@@ -1,8 +1,9 @@
 name: Build transmission image
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * *"
 
 jobs:
   amd64:
@@ -12,26 +13,32 @@ jobs:
         name: Checkout
         uses: actions/checkout@master
 
-      - name: Docker meta
+      - 
+        name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/transmission
 
-      - name: Rename version
+      - 
+        name: Rename version
         run: |
-          META_VERSION=${{ steps.meta.outputs.version }}
-          TR_VERSION=$(echo "${META_VERSION}" | cut -d'-' -f1 | sed 's/^v//')
+          mkdir version
+          curl -sL "http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/APKINDEX.tar.gz" | tar -xz -C version
+          TR_VERSION=$(awk '/^P:transmission$/,/V:/' version/APKINDEX | sed -n 2p | sed 's/^V://')
           echo "${TR_VERSION}"
           echo "tr_version=${TR_VERSION}" >> $GITHUB_ENV
 
-      - name: Set up QEMU
+      - 
+        name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
-      - name: Set up Docker Buildx
+      - 
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to DockerHub
+      - 
+        name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -44,10 +51,17 @@ jobs:
           context: .
           file: Dockerfile
           platforms: |
+            linux/386
             linux/amd64
+            linux/arm64/v8
+            linux/arm/v7
+            linux/arm/v6
+            linux/ppc64le
+            linux/s390x
           push: true
           build-args: |
             TRANSMISSION_VERSION=${{ env.tr_version }}
+          labels: ${{ steps.meta.outputs.labels }}
           tags: |
-             ${{ secrets.DOCKER_USERNAME }}/transmission:${{ steps.meta.outputs.version }}
+             ${{ secrets.DOCKER_USERNAME }}/transmission:${{ env.tr_version }}
              ${{ secrets.DOCKER_USERNAME }}/transmission:latest

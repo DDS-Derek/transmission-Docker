@@ -1,50 +1,6 @@
-FROM alpine:3.17 AS Build
+FROM alpine:edge
 
 ARG TRANSMISSION_VERSION
-
-RUN apk add --no-cache --upgrade \
-        build-base \
-        python3 \
-        gcc \
-        linux-headers \
-        g++ \
-        make \
-        git \
-        make \
-        gettext-dev \
-        curl-dev \
-        cmake \
-        python3 \
-        openssl-dev \
-        automake \
-        autoconf \
-        bsd-compat-headers \
-        curl-static \
-        nghttp2-dev \
-        nghttp2-static \
-        openssl-dev \
-        intltool \
-        libevent-dev \
-        libevent-static \
-        libssh2-dev \
-        tar \
-        xz
-RUN mkdir -p /rootfs/usr
-RUN git clone -b ${TRANSMISSION_VERSION} https://github.com/transmission/transmission /build
-WORKDIR /build
-RUN git submodule update --init --recursive
-WORKDIR /build/build
-RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX="/rootfs/usr" ..
-RUN make -j $(nproc)
-RUN make install
-RUN rm -rf \
-        /rootfs/usr/bin/transmission-create \
-        /rootfs/usr/bin/transmission-edit \
-        /rootfs/usr/bin/transmission-show
-
-FROM alpine:3.17 AS APP
-
-COPY --from=Build /rootfs/ /
 
 RUN set -ex && \
     apk add --no-cache \
@@ -60,6 +16,10 @@ RUN set -ex && \
         jq \
         procps \
         shadow && \
+    # Install transmission
+    apk add --no-cache \
+        transmission-cli==${TRANSMISSION_VERSION} \
+        transmission-daemon==${TRANSMISSION_VERSION} && \
     # Add user
     mkdir /tr && \
     addgroup -S tr -g 911 && \
