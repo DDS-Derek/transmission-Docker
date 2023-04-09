@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  amd64:
     runs-on: ubuntu-latest
     steps:
       - 
@@ -45,8 +45,6 @@ jobs:
           file: Dockerfile
           platforms: |
             linux/amd64
-            linux/arm/v7
-            linux/arm64/v8
           push: true
           build-args: |
             TRANSMISSION_VERSION=${{ env.tr_version }}
