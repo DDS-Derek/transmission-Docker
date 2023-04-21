@@ -1,4 +1,4 @@
-name: Build transmission image
+name: Build transmission v3 image
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
         name: Rename version
         run: |
           mkdir version
-          curl -sL "http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/APKINDEX.tar.gz" | tar -xz -C version
+          curl -sL "http://dl-cdn.alpinelinux.org/alpine/v3.17/community/x86_64/APKINDEX.tar.gz" | tar -xz -C version
           TR_VERSION=$(awk '/^P:transmission$/,/V:/' version/APKINDEX | sed -n 2p | sed 's/^V://')
           echo "${TR_VERSION}"
           echo "tr_version=${TR_VERSION}" >> $GITHUB_ENV
@@ -49,7 +49,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: Dockerfile
+          file: v3.Dockerfile
           platforms: |
             linux/amd64
             linux/arm64/v8
@@ -60,5 +60,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
              ${{ secrets.DOCKER_USERNAME }}/transmission:${{ env.tr_version }}
-             ${{ secrets.DOCKER_USERNAME }}/transmission:v4
-             ${{ secrets.DOCKER_USERNAME }}/transmission:latest
+             ${{ secrets.DOCKER_USERNAME }}/transmission:v3
