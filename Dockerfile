@@ -35,12 +35,11 @@ RUN set -ex && \
     addgroup -S tr -g 911 && \
     adduser -S tr -G tr -h /tr -u 911 -s /bin/bash tr && \
     # Install transmission-web-control
-    wget \
-        https://github.com/ronggang/transmission-web-control/archive/refs/heads/master.zip \
-        -O /tmp/master.zip && \
-    unzip -d /tmp/tr_web /tmp/master.zip && \
     mv /usr/share/transmission/public_html/index.html /usr/share/transmission/public_html/index.original.html && \
-    cp -r /tmp/tr_web/transmission-web-control-master/src/* /usr/share/transmission/public_html && \
+    mkdir /tmp/public_html && \
+    curl -sL https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.tar.gz | \
+    tar xzvpf - --strip-components=1 -C /tmp/public_html && \
+    cp -r /tmp/public_html/dist/* /usr/share/transmission/public_html && \
     # Clear
     rm -rf \
         /var/cache/apk/* \
