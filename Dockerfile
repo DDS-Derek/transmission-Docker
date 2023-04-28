@@ -36,7 +36,8 @@ RUN set -ex && \
     adduser -S tr -G tr -h /tr -u 911 -s /bin/bash tr && \
     # Install transmission-web-control
     mkdir -p /transmission-web-control/ && \
-    cp /usr/share/transmission/public_html/index.html /transmission-web-control/index.original.html && \
+    cp -r /usr/share/transmission/public_html/* /transmission-web-control && \
+    mv /transmission-web-control/index.html /transmission-web-control/index.original.html && \
     mkdir /tmp/transmission-web-control && \
     curl \
         -sL https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.tar.gz | \
