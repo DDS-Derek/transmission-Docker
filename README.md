@@ -19,6 +19,7 @@ services:
       - WHITELIST=iplist #optional
       - PEERPORT=peerport #optional
       - HOST_WHITELIST=dnsname list #optional
+      - TRANSMISSION_WEB_HOME=/transmission-web-control/
       - DOWNLOAD_DIR=/downloads #optional
     volumes:
       - /path/to/data:/config
@@ -43,7 +44,8 @@ docker run -d \
   -e WHITELIST=iplist `#optional` \
   -e PEERPORT=peerport `#optional` \
   -e HOST_WHITELIST=dnsname list `#optional` \
-  -e DOWNLOAD_DIR=/downloads #optional \
+  -e TRANSMISSION_WEB_HOME=/transmission-web-control/ `#optional` \
+  -e DOWNLOAD_DIR=/downloads `#optional` \
   -p 9091:9091 \
   -p 51413:51413 \
   -p 51413:51413/udp \
@@ -70,6 +72,7 @@ docker run -d \
 |              `-e WHITELIST=iplist`              | 指定逗号分隔的 ip 白名单的可选列表。填写 rpc-whitelist 设置。 |
 |             `-e PEERPORT=peerport`              | 为 torrent TCP/UDP 连接指定一个可选端口。填充对等端口设置。  |
 |        `-e HOST_WHITELIST=dnsname list`         | 指定逗号分隔的 dns 名称白名单的可选列表。填写 rpc-host-whitelist 设置。 |
+|        `-e TRANSMISSION_WEB_HOME=/transmission-web-control/`         | 设置 Web UI 界面 |
 |        ```-e DOWNLOAD_DIR=/downloads```         | 下载目录，默认```/downloads```，如果此处更改，`-v /downloads`也要更改为你更改后的下载路径 |
 |                  `-v /config`                   |               传输应存储配置文件和日志的位置。               |
 |                 `-v /downloads`                 |                        本地下载路径。                        |

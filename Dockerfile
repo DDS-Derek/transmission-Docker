@@ -35,11 +35,13 @@ RUN set -ex && \
     addgroup -S tr -g 911 && \
     adduser -S tr -G tr -h /tr -u 911 -s /bin/bash tr && \
     # Install transmission-web-control
-    mv /usr/share/transmission/public_html/index.html /usr/share/transmission/public_html/index.original.html && \
-    mkdir /tmp/public_html && \
-    curl -sL https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.tar.gz | \
-    tar xzvpf - --strip-components=1 -C /tmp/public_html && \
-    cp -r /tmp/public_html/dist/* /usr/share/transmission/public_html && \
+    mkdir -p /transmission-web-control/ && \
+    cp /usr/share/transmission/public_html/index.html /transmission-web-control/index.original.html && \
+    mkdir /tmp/transmission-web-control && \
+    curl \
+        -sL https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.tar.gz | \
+        tar xzvpf - --strip-components=1 -C /tmp/transmission-web-control && \
+    cp -r /tmp/transmission-web-control/dist/* /transmission-web-control && \
     # Clear
     rm -rf \
         /var/cache/apk/* \
