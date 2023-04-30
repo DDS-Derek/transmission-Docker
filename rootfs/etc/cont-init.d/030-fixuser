@@ -14,13 +14,6 @@ function __fixuser {
     groupmod -o -g "${PGID}" tr
     usermod -o -u "${PUID}" tr
 
-    chown -R tr:tr \
-        /transmission-web-control \
-        /transmissionic \
-        /combustion \
-        /kettu \
-        /flood
-
     chown tr:tr \
         /config \
         /config/settings.json
