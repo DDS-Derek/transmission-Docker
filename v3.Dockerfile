@@ -38,11 +38,21 @@ RUN set -ex && \
     mkdir -p /transmission-web-control/ && \
     cp -r /usr/share/transmission/web/* /transmission-web-control && \
     mv /transmission-web-control/index.html /transmission-web-control/index.original.html && \
-    mkdir /tmp/transmission-web-control && \
-    curl \
-        -sL https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.tar.gz | \
-        tar xzvpf - --strip-components=1 -C /tmp/transmission-web-control && \
-    cp -r /tmp/transmission-web-control/dist/* /transmission-web-control && \
+    curl -sL "https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.zip" | busybox unzip -d / - && \
+    mv /dist/* transmission-web-control && \
+    # Install transmissionic
+    TRANSMISSIONIC_VERSION=$(curl -s "https://api.github.com/repos/6c65726f79/Transmissionic/releases/latest" | jq -r .tag_name) && \
+    curl -sL "https://github.com/6c65726f79/Transmissionic/releases/download/${TRANSMISSIONIC_VERSION}/Transmissionic-webui-${TRANSMISSIONIC_VERSION}.zip" | busybox unzip -d /tmp - && \
+    mv /tmp/web /transmissionic && \
+    # Install combustion
+    curl -sL "https://github.com/Secretmapper/combustion/archive/release.zip" | busybox unzip -d / - && \
+    mv /combustion-release /combustion && \
+    # Install kettu
+    mkdir /kettu && \
+    curl -sL "https://github.com/endor/kettu/archive/master.tar.gz" | tar xzvpf - --strip-components=1 -C /kettu && \
+    # Install flood
+    mkdir /flood && \
+    curl -sL "https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.tar.gz" | tar xzvpf - --strip-components=1 -C /flood && \
     # Clear
     rm -rf \
         /var/cache/apk/* \
