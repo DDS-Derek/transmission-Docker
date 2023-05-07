@@ -18,6 +18,7 @@ services:
       - PASS=password #optional
       - WHITELIST=iplist #optional
       - PEERPORT=peerport #optional
+      - PRCPORT=9091
       - HOST_WHITELIST=dnsname list #optional
       - TRANSMISSION_WEB_HOME=/transmission-web-control/
       - DOWNLOAD_DIR=/downloads #optional
@@ -42,6 +43,7 @@ docker run -d \
   -e USER=username `#optional` \
   -e PASS=password `#optional` \
   -e WHITELIST=iplist `#optional` \
+  -e PRCPORT=9091 \
   -e PEERPORT=peerport `#optional` \
   -e HOST_WHITELIST=dnsname list `#optional` \
   -e TRANSMISSION_WEB_HOME=/transmission-web-control/ `#optional` \
@@ -70,6 +72,7 @@ docker run -d \
 |               `-e USER=username`                |                     指定接口的可选用户名                     |
 |               `-e PASS=password`                |                      指定接口的可选密码                      |
 |              `-e WHITELIST=iplist`              | 指定逗号分隔的 ip 白名单的可选列表。填写 rpc-whitelist 设置。 |
+|             `-e PRCPORT=9091`              | 为 web rpc 连接指定一个可选端口。填充对等端口设置。  |
 |             `-e PEERPORT=peerport`              | 为 torrent TCP/UDP 连接指定一个可选端口。填充对等端口设置。  |
 |        `-e HOST_WHITELIST=dnsname list`         | 指定逗号分隔的 dns 名称白名单的可选列表。填写 rpc-host-whitelist 设置。 |
 |        `-e TRANSMISSION_WEB_HOME=/transmission-web-control/`         | 设置 Web UI 界面 可选 `/transmission-web-control/` `/transmissionic/` `/combustion/` `/kettu/` `/flood/` |

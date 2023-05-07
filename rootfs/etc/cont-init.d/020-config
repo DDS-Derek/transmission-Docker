@@ -43,6 +43,10 @@ function __config {
         sed -i '/peer-port-random-on-start/c\     "peer-port-random-on-start": false,' /config/settings.json
     fi
 
+    if [[ -n "${PRCPORT}" ]]; then
+        sed -i "/\"rpc-port\"/c\    \"rpc-port\": ${PRCPORT}," /config/settings.json
+    fi
+
     if [ -n "${DOWNLOAD_DIR}" ]; then
         sed -i "/\"download-dir\"/c\    \"download-dir\": \"$DOWNLOAD_DIR\"," /config/settings.json
         sed -i "/\"incomplete-dir\"/c\    \"incomplete-dir\": \"$DOWNLOAD_DIR/incomplete\"," /config/settings.json

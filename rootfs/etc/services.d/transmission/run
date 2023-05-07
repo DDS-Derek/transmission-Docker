@@ -5,6 +5,6 @@ UMASK=${UMASK:-022}
 umask ${UMASK}
 
 exec \
-    s6-notifyoncheck -d -n 300 -w 1000 -c "nc -z localhost 9091" \
+    s6-notifyoncheck -d -n 300 -w 1000 -c "nc -z localhost ${PRCPORT}" \
     s6-setuidgid tr /usr/bin/transmission-daemon \
     -g /config -f
