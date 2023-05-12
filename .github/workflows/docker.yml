@@ -24,7 +24,7 @@ jobs:
         name: Rename version
         run: |
           mkdir version
-          curl -sL "http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/APKINDEX.tar.gz" | tar -xz -C version
+          curl -sL "http://dl-cdn.alpinelinux.org/alpine/v3.18/community/x86_64/APKINDEX.tar.gz" | tar -xz -C version
           TR_VERSION=$(awk '/^P:transmission$/,/V:/' version/APKINDEX | sed -n 2p | sed 's/^V://')
           echo "${TR_VERSION}"
           echo "tr_version=${TR_VERSION}" >> $GITHUB_ENV
