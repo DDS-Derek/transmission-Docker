@@ -29,8 +29,7 @@ RUN set -ex && \
     # Install transmission
     apk add --no-cache \
         transmission-cli==${TRANSMISSION_VERSION} \
-        transmission-daemon==${TRANSMISSION_VERSION} \
-        transmission-remote==${TRANSMISSION_VERSION} && \
+        transmission-daemon==${TRANSMISSION_VERSION} && \
     # Add user
     mkdir /tr && \
     addgroup -S tr -g 911 && \
