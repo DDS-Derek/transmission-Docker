@@ -3,7 +3,7 @@
 
 function __fixuser {
 
-    DOWNLOAD_DIR=${DOWNLOAD_DIR:-/download}
+    DOWNLOAD_DIR=${DOWNLOAD_DIR:-/downloads}
     PUID=${PUID:-1000}
     PGID=${PGID:-1000}
 

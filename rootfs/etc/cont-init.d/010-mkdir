@@ -3,7 +3,7 @@
 
 function __mkdir {
 
-    DOWNLOAD_DIR=${DOWNLOAD_DIR:-/download}
+    DOWNLOAD_DIR=${DOWNLOAD_DIR:-/downloads}
 
     UMASK=${UMASK:-022}
     umask ${UMASK}
