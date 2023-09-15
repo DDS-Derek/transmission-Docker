@@ -46,7 +46,7 @@ jobs:
 
       - 
         name: Build transmission image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: Dockerfile
@@ -102,7 +102,7 @@ jobs:
 
       - 
         name: Build transmission image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: v3.Dockerfile
