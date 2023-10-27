@@ -60,6 +60,7 @@ RUN set -ex && \
         s6-overlay \
         findutils \
         p7zip \
+        libevent \
         unzip \
         ca-certificates \
         coreutils \
