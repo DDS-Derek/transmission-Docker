@@ -51,6 +51,8 @@ ENV PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\u \[\e[m\]\[\e[37m\]@ \[\e[m\]\[\e[34m\]\
     PGID=1000 \
     LANG=zh_CN.UTF-8
 
+COPY --from=Build /rootfs /usr
+
 RUN set -ex && \
     apk add --no-cache \
         tzdata \
@@ -92,8 +94,6 @@ RUN set -ex && \
     rm -rf \
         /var/cache/apk/* \
         /tmp/*
-
-COPY --from=Build /rootfs /usr
 
 COPY --chmod=755 ./rootfs /
 
