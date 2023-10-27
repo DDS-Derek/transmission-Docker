@@ -37,12 +37,8 @@ WORKDIR /build/build
 RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX="/rootfs/usr" ..
 RUN make -j $(nproc)
 RUN make install
-RUN rm -rf \
-        /rootfs/usr/bin/transmission-create \
-        /rootfs/usr/bin/transmission-edit \
-        /rootfs/usr/bin/transmission-show
 
-FROM alpine:3.17 AS APP
+FROM alpine:3.18 AS APP
 
 COPY --from=Build /rootfs/ /
 
