@@ -1,6 +1,6 @@
 # transmission
 
-[![Build transmission image](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker.yml/badge.svg)](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker.yml) [![Docker Hub Description](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker-Hub-Description.yml/badge.svg)](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker-Hub-Description.yml)
+[![Build transmission image](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker.yml/badge.svg)](https://github.com/DDS-Derek/transmission-Docker/actions/workflows/docker.yml)
 
 ## 部署
 
