@@ -29,9 +29,9 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/transmission
           tags: |
+            type=raw,value=${{ env.tr_version }}
             type=raw,value=latest
             type=raw,value=v4
-            type=raw,value=${{ env.tr_version }}
 
       - 
         name: Set up QEMU
@@ -86,8 +86,8 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/transmission
           tags: |
-            type=raw,value=v3
             type=raw,value=${{ env.tr_version }}
+            type=raw,value=v3
 
       - 
         name: Set up QEMU
