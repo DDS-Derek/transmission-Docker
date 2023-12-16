@@ -28,7 +28,7 @@ RUN apk add --no-cache --upgrade \
         tar \
         xz
 RUN mkdir -p /rootfs
-RUN git clone https://github.com/ChisBread/transmission_pt_edition.git /build
+RUN git clone https://github.com/DDS-Derek/transmission_pt_edition.git /build
 WORKDIR /build
 RUN git submodule update --init --recursive
 WORKDIR /build/build
