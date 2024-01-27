@@ -4,20 +4,20 @@
 DOWNLOAD_DIR=${DOWNLOAD_DIR:-/downloads}
 
 UMASK=${UMASK:-022}
-umask ${UMASK}
+umask "${UMASK}"
 
 echo "Make some folders..."
 
-if [ ! -d ${DOWNLOAD_DIR} ]; then
-    mkdir ${DOWNLOAD_DIR}
+if [ ! -d "${DOWNLOAD_DIR}" ]; then
+    mkdir "${DOWNLOAD_DIR}"
 fi
 
-if [ ! -d ${DOWNLOAD_DIR}/complete ]; then
-    mkdir ${DOWNLOAD_DIR}/complete
+if [ ! -d "${DOWNLOAD_DIR}"/complete ]; then
+    mkdir "${DOWNLOAD_DIR}"/complete
 fi
 
-if [ ! -d ${DOWNLOAD_DIR}/incomplete ]; then
-    mkdir ${DOWNLOAD_DIR}/incomplete
+if [ ! -d "${DOWNLOAD_DIR}"/incomplete ]; then
+    mkdir "${DOWNLOAD_DIR}"/incomplete
 fi
 
 if [ ! -d /config ]; then
