@@ -26,6 +26,7 @@ RUN set -ex && \
         jq \
         procps \
         shadow && \
+    apk upgrade --no-cache libssl3 libcrypto3 && \
     # Install transmission
     apk add --no-cache \
         transmission-cli==${TRANSMISSION_VERSION} \
