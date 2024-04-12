@@ -38,11 +38,17 @@ RUN set -ex && \
     addgroup -S tr -g 911 && \
     adduser -S tr -G tr -h /tr -u 911 -s /bin/bash tr && \
     # Install transmission-web-control
-    mkdir -p /transmission-web-control/ && \
+    # mkdir -p /transmission-web-control/ && \
+    # cp -r /usr/share/transmission/public_html/* /transmission-web-control && \
+    # mv /transmission-web-control/index.html /transmission-web-control/index.original.html && \
+    # curl -sL "https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.zip" | busybox unzip -d / - && \
+    # mv /dist/* transmission-web-control && \
+    mkdir -p /transmission-web-control/ /tmp/twctemp && \
     cp -r /usr/share/transmission/public_html/* /transmission-web-control && \
     mv /transmission-web-control/index.html /transmission-web-control/index.original.html && \
-    curl -sL "https://github.com/transmission-web-control/transmission-web-control/releases/latest/download/dist.zip" | busybox unzip -d / - && \
-    mv /dist/* transmission-web-control && \
+    TWCVERSION=$(curl -s "https://api.github.com/repos/ronggang/transmission-web-control/releases/latest" | jq -r .tag_name) && \
+    curl -sL "https://github.com/ronggang/transmission-web-control/archive/${TWCVERSION}.tar.gz" | tar xzvpf - --strip-components=1 -C /tmp/twctemp && \
+    mv /tmp/twctemp/src/* /transmission-web-control && \
     # Install transmissionic
     TRANSMISSIONIC_VERSION=$(curl -s "https://api.github.com/repos/6c65726f79/Transmissionic/releases/latest" | jq -r .tag_name) && \
     curl -sL "https://github.com/6c65726f79/Transmissionic/releases/download/${TRANSMISSIONIC_VERSION}/Transmissionic-webui-${TRANSMISSIONIC_VERSION}.zip" | busybox unzip -d /tmp - && \
@@ -56,6 +62,10 @@ RUN set -ex && \
     # Install flood
     mkdir /flood && \
     curl -sL "https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.tar.gz" | tar xzvpf - --strip-components=1 -C /flood && \
+    # Install trguing
+    mkdir /trguing && \
+    TrguiNG_VERSION=$(curl -s "https://api.github.com/repos/openscopeproject/TrguiNG/releases/latest" | jq -r .tag_name) && \
+    curl -sL "https://github.com/openscopeproject/TrguiNG/releases/download/${TrguiNG_VERSION}/trguing-web-${TrguiNG_VERSION}.zip" | busybox unzip -d /trguing - && \
     # Clear
     rm -rf \
         /var/cache/apk/* \
