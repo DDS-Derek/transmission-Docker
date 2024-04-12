@@ -42,6 +42,7 @@ RUN set -ex && \
     # mv /dist/* transmission-web-control && \
     mkdir -p /transmission-web-control/ /tmp/twctemp && \
     cp -r /usr/share/transmission/web/* /transmission-web-control && \
+    mv /transmission-web-control/index.html /transmission-web-control/index.original.html && \
     TWCVERSION=$(curl -s "https://api.github.com/repos/ronggang/transmission-web-control/releases/latest" | jq -r .tag_name) && \
     curl -sL "https://github.com/ronggang/transmission-web-control/archive/${TWCVERSION}.tar.gz" | tar xzvpf - --strip-components=1 -C /tmp/twctemp && \
     mv /tmp/twctemp/src/* /transmission-web-control && \
