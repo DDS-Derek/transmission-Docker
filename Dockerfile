@@ -68,7 +68,8 @@ RUN set -ex && \
     curl -sL "https://github.com/openscopeproject/TrguiNG/releases/download/${TrguiNG_VERSION}/trguing-web-${TrguiNG_VERSION}.zip" | busybox unzip -d /trguing - && \
     # Install trguing-cn
     mkdir /trguing-cn && \
-    curl -sL "https://github.com/jayzcoder/TrguiNG/releases/download/trguing-web-v1.2.0-zh/trguing-web-v1.2.0-zh.zip" | busybox unzip -d /trguing-cn - && \
+    TrguiNG_CN_VERSION=$(curl -s "https://api.github.com/repos/jayzcoder/TrguiNG/releases/latest" | jq -r .tag_name) && \
+    curl -sL "https://github.com/jayzcoder/TrguiNG/releases/download/${TrguiNG_CN_VERSION}/${TrguiNG_CN_VERSION}.zip" | busybox unzip -d /trguing-cn - && \
     # Clear
     rm -rf \
         /var/cache/apk/* \
