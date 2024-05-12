@@ -27,17 +27,18 @@ RUN apk add --no-cache --upgrade \
         libssh2-dev \
         tar \
         xz
-RUN mkdir -p /rootfs
-RUN git clone https://github.com/DDS-Derek/transmission_pt_edition.git /build
-WORKDIR /build
-RUN git submodule update --init --recursive
-WORKDIR /build/build
-RUN cmake \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DCMAKE_INSTALL_PREFIX="/rootfs" \
-    ..
-RUN make -j $(nproc)
-RUN make install
+
+RUN mkdir -p /rootfs && \
+    git clone https://github.com/DDS-Derek/transmission_pt_edition.git /build && \
+    cd /build && \
+    git submodule update --init --recursive && \
+    mkdir -p /build/build && \
+    cd /build/build && \
+    cmake \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_INSTALL_PREFIX="/rootfs" \
+        .. && \
+    cmake --build . --target install -j $(nproc)
 
 FROM alpine:3.19
 
