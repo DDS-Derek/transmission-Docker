@@ -26,7 +26,10 @@ RUN apk add --no-cache --upgrade \
         libevent-static \
         libssh2-dev \
         tar \
-        xz
+        xz \
+        gtk+3.0-dev \
+        glib-dev \
+        libayatana-appindicator-dev
 
 RUN mkdir -p /rootfs && \
     git clone https://github.com/DDS-Derek/transmission_pt_edition.git /build && \
