@@ -16,7 +16,6 @@ RUN set -ex && \
     apk add --no-cache \
         tzdata \
         bash \
-        s6-overlay \
         findutils \
         p7zip \
         unzip \
@@ -27,6 +26,10 @@ RUN set -ex && \
         procps \
         shadow && \
     apk upgrade --no-cache libssl3 libcrypto3 && \
+    apk add --no-cache \
+        -X https://dl-cdn.alpinelinux.org/alpine/v3.20/main \
+        -X https://dl-cdn.alpinelinux.org/alpine/v3.20/community \
+        s6-overlay && \
     # Install transmission
     apk add --no-cache \
         transmission-cli==${TRANSMISSION_VERSION} \
