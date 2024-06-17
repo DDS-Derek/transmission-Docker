@@ -37,7 +37,7 @@ jobs:
 
       - 
         name: Build transmission image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: skip_patch.Dockerfile
