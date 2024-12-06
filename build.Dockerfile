@@ -1,4 +1,4 @@
-FROM alpine:3.20 AS Build
+FROM alpine:3.21 AS Build
 
 ARG TRANSMISSION_VERSION
 
@@ -41,7 +41,7 @@ RUN cmake \
 RUN make -j $(nproc)
 RUN make install
 
-FROM alpine:3.20
+FROM alpine:3.21
 
 ENV PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\u \[\e[m\]\[\e[37m\]@ \[\e[m\]\[\e[34m\]\h\[\e[m\]\[\e[32m\]]\[\e[m\] \[\e[37;35m\]in\[\e[m\] \[\e[33m\]\w\[\e[m\] \[\e[32m\][\[\e[m\]\[\e[37m\]\d\[\e[m\] \[\e[m\]\[\e[37m\]\t\[\e[m\]\[\e[32m\]]\[\e[m\] \n\[\e[1;31m\]$ \[\e[0m\]" \
     S6_SERVICES_GRACETIME=30000 \
