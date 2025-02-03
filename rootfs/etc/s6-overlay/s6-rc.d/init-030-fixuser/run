@@ -16,18 +16,22 @@ chown tr:tr \
     /config \
     /config/settings.json
 
-if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}")" != "tr" ]]; then
-    chown tr:tr "${DOWNLOAD_DIR}"
+if grep -qe " ${DOWNLOAD_DIR} " /proc/mounts; then
+    if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}")" != "tr" ]]; then
+        chown tr:tr "${DOWNLOAD_DIR}"
+    fi
+
+    if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}"/complete)" != "tr" ]]; then
+        chown tr:tr "${DOWNLOAD_DIR}"/complete
+    fi
+
+    if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}"/incomplete)" != "tr" ]]; then
+        chown tr:tr "${DOWNLOAD_DIR}"/incomplete
+    fi
 fi
 
-if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}"/complete)" != "tr" ]]; then
-    chown tr:tr "${DOWNLOAD_DIR}"/complete
-fi
-
-if [[ "$(stat -c '%U' "${DOWNLOAD_DIR}"/incomplete)" != "tr" ]]; then
-    chown tr:tr "${DOWNLOAD_DIR}"/incomplete
-fi
-
-if [[ "$(stat -c '%U' /watch)" != "tr" ]]; then
-    chown tr:tr /watch
+if grep -qe ' /watch ' /proc/mounts; then
+    if [[ "$(stat -c '%U' /watch)" != "tr" ]]; then
+        chown tr:tr /watch
+    fi
 fi

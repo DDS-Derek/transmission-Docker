@@ -10,42 +10,42 @@ if [[ ! -f /config/settings.json ]]; then
     cp /defaults/settings.json /config/settings.json
 fi
 
-if [[ -n "$USER" ]] && [[ -n "$PASS" ]]; then
-    sed -i '/rpc-authentication-required/c\    "rpc-authentication-required": true,' /config/settings.json
-    sed -i "/rpc-username/c\    \"rpc-username\": \"$USER\"," /config/settings.json
-    sed -i "/rpc-password/c\    \"rpc-password\": \"$PASS\"," /config/settings.json
+if [[ -n "${USER}" ]] && [[ -n "${PASS}" ]]; then
+    echo -E "$(jq -r '.["rpc-authentication-required"] = true' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r --arg user "${USER}" '.["rpc-username"] = $user' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r --arg pass "${PASS}" '.["rpc-password"] = $pass' /config/settings.json)" >/config/settings.json
 else
-    sed -i '/rpc-authentication-required/c\    "rpc-authentication-required": false,' /config/settings.json
-    sed -i "/rpc-username/c\    \"rpc-username\": \"$USER\"," /config/settings.json
-    sed -i "/rpc-password/c\    \"rpc-password\": \"$PASS\"," /config/settings.json
+    echo -E "$(jq -r '.["rpc-authentication-required"] = false' /config/settings.json)" >/config/settings.json
 fi
 
-if [[ -n "$WHITELIST" ]]; then
-    sed -i '/rpc-whitelist-enabled/c\    "rpc-whitelist-enabled": true,' /config/settings.json
-    sed -i "/\"rpc-whitelist\"/c\    \"rpc-whitelist\": \"$WHITELIST\"," /config/settings.json
+if [[ -n "${WHITELIST}" ]]; then
+    echo -E "$(jq -r '.["rpc-whitelist-enabled"] = true' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r --arg whitelist "${WHITELIST}" '.["rpc-whitelist"] = $whitelist' /config/settings.json)" >/config/settings.json
 else
-    sed -i '/rpc-whitelist-enabled/c\    "rpc-whitelist-enabled": false,' /config/settings.json
-    sed -i "/\"rpc-whitelist\"/c\    \"rpc-whitelist\": \"$WHITELIST\"," /config/settings.json
+    echo -E "$(jq -r '.["rpc-whitelist-enabled"] = false' /config/settings.json)" >/config/settings.json
 fi
 
-if [[ -n "$HOST_WHITELIST" ]]; then
-    sed -i '/rpc-host-whitelist-enabled/c\    "rpc-host-whitelist-enabled": true,' /config/settings.json
-    sed -i "/\"rpc-host-whitelist\"/c\    \"rpc-host-whitelist\": \"$HOST_WHITELIST\"," /config/settings.json
+if [[ -n "${HOST_WHITELIST}" ]]; then
+    echo -E "$(jq -r '.["rpc-host-whitelist-enabled"] = true' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r --arg host_whitelist "${HOST_WHITELIST}" '.["rpc-host-whitelist"] = $host_whitelist' /config/settings.json)" >/config/settings.json
 else
-    sed -i '/rpc-host-whitelist-enabled/c\    "rpc-host-whitelist-enabled": false,' /config/settings.json
-    sed -i "/\"rpc-host-whitelist\"/c\    \"rpc-host-whitelist\": \"$HOST_WHITELIST\"," /config/settings.json
+    echo -E "$(jq -r '.["rpc-host-whitelist-enabled"] = false' /config/settings.json)" >/config/settings.json
 fi
 
 if [[ -n "${PEERPORT}" ]]; then
-    sed -i "/\"peer-port\"/c\    \"peer-port\": ${PEERPORT}," /config/settings.json
-    sed -i '/peer-port-random-on-start/c\     "peer-port-random-on-start": false,' /config/settings.json
+    echo -E "$(jq -r --argjson peerport "${PEERPORT}" '.["peer-port"] = $peerport' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r '.["peer-port-random-on-start"] = false' /config/settings.json)" >/config/settings.json
 fi
 
 if [[ -n "${PRCPORT}" ]]; then
-    sed -i "/\"rpc-port\"/c\    \"rpc-port\": ${PRCPORT}," /config/settings.json
+    echo -E "$(jq -r --argjson rpcport "${PRCPORT}" '.["rpc-port"] = $rpcport' /config/settings.json)" >/config/settings.json
 fi
 
-if [ -n "${DOWNLOAD_DIR}" ]; then
-    sed -i "/\"download-dir\"/c\    \"download-dir\": \"$DOWNLOAD_DIR\"," /config/settings.json
-    sed -i "/\"incomplete-dir\"/c\    \"incomplete-dir\": \"$DOWNLOAD_DIR/incomplete\"," /config/settings.json
+if [[ -n "${UMASK}" ]]; then
+    echo -E "$(jq -r --arg umask "${UMASK}" '.["umask"] = $umask' /config/settings.json)" >/config/settings.json
+fi
+
+if grep -qe " ${DOWNLOAD_DIR} " /proc/mounts; then
+    echo -E "$(jq -r --arg downloaddir "${DOWNLOAD_DIR}" '.["download-dir"] = $downloaddir' /config/settings.json)" >/config/settings.json
+    echo -E "$(jq -r --arg incompletedir "${DOWNLOAD_DIR}/incomplete" '.["incomplete-dir"] = $incompletedir' /config/settings.json)" >/config/settings.json
 fi
