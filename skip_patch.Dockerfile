@@ -26,11 +26,7 @@ RUN apk add --no-cache --upgrade \
         libevent-static \
         libssh2-dev \
         tar \
-        xz \
-        clang
-
-ENV CC=clang
-ENV CXX=clang++
+        xz
 
 RUN mkdir -p /rootfs && \
     git clone https://github.com/DDS-Derek/transmission_pt_edition.git /build && \
@@ -39,10 +35,10 @@ RUN mkdir -p /rootfs && \
     mkdir -p /build/build && \
     cd /build/build && \
     cmake \
-        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_INSTALL_PREFIX="/rootfs" \
         .. && \
-    cmake --build . --target install -- VERBOSE=1 -j 1
+    cmake --build . --target install -j 1
 
 FROM alpine:3.20
 
