@@ -16,14 +16,9 @@ services:
       - PGID=1000
       - UMASK=022
       - TZ=Asia/Shanghai
-      - USER=username #optional
-      - PASS=password #optional
-      - WHITELIST=iplist #optional
-      - PEERPORT=peerport #optional
-      - PRCPORT=rpcport #optional
-      - HOST_WHITELIST=dnsname list #optional
-      - TRANSMISSION_WEB_HOME=/transmission-web-control/
-      - DOWNLOAD_DIR=/downloads #optional
+      - USER=admin
+      - PASS=password
+      - TRANSMISSION_WEB_HOME=/trguing-cn/
     volumes:
       - /path/to/data:/config
       - /path/to/downloads:/downloads
@@ -42,14 +37,9 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=022 \
   -e TZ=Asia/Shanghai \
-  -e USER=username `#optional` \
-  -e PASS=password `#optional` \
-  -e WHITELIST=iplist `#optional` \
-  -e PRCPORT=rpcport `#optional` \
-  -e PEERPORT=peerport `#optional` \
-  -e HOST_WHITELIST=dnsname list `#optional` \
-  -e TRANSMISSION_WEB_HOME=/transmission-web-control/ `#optional` \
-  -e DOWNLOAD_DIR=/downloads `#optional` \
+  -e USER=admin \
+  -e PASS=password \
+  -e TRANSMISSION_WEB_HOME=/trguing-cn/ \
   -p 9091:9091 \
   -p 51413:51413 \
   -p 51413:51413/udp \
