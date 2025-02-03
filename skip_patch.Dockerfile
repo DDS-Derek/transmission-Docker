@@ -38,7 +38,7 @@ RUN mkdir -p /rootfs && \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_INSTALL_PREFIX="/rootfs" \
         .. && \
-    cmake --build . --target install -j $(nproc)
+    cmake --build . --target install -j 1
 
 FROM alpine:3.20
 
